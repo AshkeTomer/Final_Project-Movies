@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/moviePoster"
+            android:layout_width="80dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="Movie Poster" />
+
+        <TextView
+            android:id="@+id/movieTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toStartOf="@id/movieRating"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/moviePoster"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Movie Title" />
+
+        <TextView
+            android:id="@+id/movieRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/holo_orange_dark"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="8.5" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/favoriteButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:background="@drawable/favorite_ripple"
+            android:contentDescription="@string/add_to_favorites"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/movieReleaseDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:textStyle="italic"
+            app:layout_constraintLeft_toLeftOf="@+id/movieTitle"
+            app:layout_constraintStart_toEndOf="@id/moviePoster"
+            app:layout_constraintTop_toBottomOf="@id/movieTitle"
+            tools:text="2023-08-15" />
+
+        <TextView
+            android:id="@+id/movieOverview"
+            android:layout_width="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:lineSpacingExtra="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/moviePoster"
+            app:layout_constraintTop_toBottomOf="@id/movieReleaseDate"
+            tools:text="Movie overview and description goes here..." />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

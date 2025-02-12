@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/moviePoster"
+            android:layout_width="120dp"
+            android:layout_height="160dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="Movie Poster" />
+
+        <TextView
+            android:id="@+id/movieTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end"
+            app:layout_constraintEnd_toStartOf="@id/movieRating"
+            app:layout_constraintStart_toEndOf="@id/moviePoster"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Movie Title" />
+
+        <TextView
+            android:id="@+id/movieRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
+            android:textColor="@android:color/holo_orange_dark"
+            app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="8.5" />
+
+        <ToggleButton
+            android:id="@+id/favoriteButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:button="@drawable/favorite_toggle"
+            android:checked="false"
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/movieReleaseDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/moviePoster"
+            app:layout_constraintTop_toBottomOf="@id/movieTitle"
+            tools:text="2023-08-15" />
+
+        <TextView
+            android:id="@+id/movieOverview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="5"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/moviePoster"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/moviePoster"
+            app:layout_constraintTop_toBottomOf="@id/movieReleaseDate"
+            tools:text="Movie overview and description goes here..." />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Mid Project - IMDB</string>
+    <string name="enter_item_title">Enter movie Title</string>
+    <string name="enter_item_description">Enter movie Description</string>
+    <string name="pick_image">Pick Image</string>
+    <string name="finish">Finish</string>
+    <string name="main_item_title">Main item title</string>
+    <string name="delete_all">Delete all</string>
+    <string name="selected_image">Selected image</string>
+    <string name="add_a_movie">Add a movie</string>
+    <string name="movie_image">Movie image</string>
+    <string name="item_detailed_description">Item detailed description</string>
+    <string name="add_user_comments">Add your notes here</string>
+    <string name="delete_movie">Delete Movie</string>
+    <string name="are_you_sure_you_want_to_delete_this_movie">Are you sure you want to delete this movie?</string>
+    <string name="yes">Yes</string>
+    <string name="movie_deleted">Movie deleted</string>
+    <string name="no">No</string>
+    <string name="title_required">Title is required</string>
+    <string name="description_required">Description is required</string>
+    <string name="description">Description</string>
+    <string name="notes">Notes</string>
+    <string name="overview">Overview</string>
+    <string name="favorite_movies">Favorite Movies</string>
+    <string name="nearby_movies">Nearby Movies</string>
+    <string name="search_movies">Search Movies</string>
+    <string name="movies_in_your_region">Movies in your region</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="no_favorite_movies_yet">No favorite movies yet</string>
+    <string name="location_permission_denied">Location permission denied</string>
+    <string name="unable_to_access_location">Unable to access location</string>
+    <string name="movies_in">Movies in %1$s</string>
+    <string name="rating">rating</string>
+</resources>
