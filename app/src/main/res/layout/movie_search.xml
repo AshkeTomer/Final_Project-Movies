@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:iconifiedByDefault="false"
-            android:queryHint="Search movies..."
+            android:queryHint="@string/search_movies"
             android:background="@drawable/searchview_background"/>
 
         <LinearLayout
