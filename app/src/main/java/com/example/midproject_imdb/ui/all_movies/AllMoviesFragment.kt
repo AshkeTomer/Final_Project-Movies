@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.midproject_imdb.R
 import com.example.midproject_imdb.data.models.Movie
 import com.example.midproject_imdb.databinding.AllItemsLayoutBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AllMoviesFragment : Fragment() {
     private var _binding : AllItemsLayoutBinding? = null
     private val binding get() = _binding!!

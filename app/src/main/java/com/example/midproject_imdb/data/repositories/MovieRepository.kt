@@ -5,15 +5,15 @@ import androidx.lifecycle.LiveData
 import com.example.midproject_imdb.data.local_db.MovieDao
 import com.example.midproject_imdb.data.local_db.MovieDataBase
 import com.example.midproject_imdb.data.models.Movie
+import javax.inject.Inject
 
-class MovieRepository(application: Application) {
+class MovieRepository @Inject constructor(
+    private val movieDao: MovieDao
+) {
 
-    private var movieDao: MovieDao?
 
-    init {
-        val db  = MovieDataBase.getDatabase(application.applicationContext)
-        movieDao = db.moviesDao()
-    }
+
+
 
     fun getMovies() = movieDao?.getMovies()
 

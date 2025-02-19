@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.midproject_imdb.databinding.ItemLayoutBinding
 import com.example.midproject_imdb.data.models.Movie
+import dagger.hilt.android.AndroidEntryPoint
+
 
 class MovieAdapter(val movies:List<Movie>, val callback: MovieListener)
     : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(){

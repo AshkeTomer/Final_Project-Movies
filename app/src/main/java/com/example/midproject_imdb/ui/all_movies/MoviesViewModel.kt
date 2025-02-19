@@ -4,14 +4,20 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.midproject_imdb.data.models.Movie
 import com.example.midproject_imdb.data.repositories.MovieRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MoviesViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class MoviesViewModel @Inject constructor(
+    private val repository: MovieRepository
+) : ViewModel() {
 
-    private val repository = MovieRepository(application)
+
     private val _chosenItem = MutableLiveData<Movie?>()
     val chosenItem: LiveData<Movie?> = _chosenItem
 

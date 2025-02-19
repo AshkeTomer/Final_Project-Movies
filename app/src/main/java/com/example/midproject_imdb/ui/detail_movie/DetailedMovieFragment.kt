@@ -9,7 +9,9 @@ import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.example.midproject_imdb.databinding.DetailItemLayoutBinding
 import com.example.midproject_imdb.ui.all_movies.MoviesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailedMovieFragment : Fragment() {
     var _binding : DetailItemLayoutBinding?  = null
     private val viewModel : MoviesViewModel by activityViewModels()

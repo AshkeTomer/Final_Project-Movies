@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.midproject_imdb.R
 import com.example.midproject_imdb.databinding.MovieTmdbDetailBinding
 import com.example.midproject_imdb.data.models.MovieTMDB
+import dagger.hilt.android.AndroidEntryPoint
 
 
 class MovieTMDBDetailFragment : Fragment() {

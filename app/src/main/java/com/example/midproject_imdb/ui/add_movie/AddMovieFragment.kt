@@ -18,7 +18,9 @@ import com.example.midproject_imdb.ui.all_movies.MoviesViewModel
 import com.example.midproject_imdb.R
 import com.example.midproject_imdb.databinding.AddItemLayoutBinding
 import com.example.midproject_imdb.data.models.Movie
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddMovieFragment : Fragment() {
     private var _binding: AddItemLayoutBinding? = null
     private val binding get() = _binding!!

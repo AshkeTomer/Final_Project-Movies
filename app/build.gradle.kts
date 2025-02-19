@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -43,7 +44,6 @@ android {
 dependencies {
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
     implementation("com.google.android.material:material:1.11.0")
-
     implementation(libs.play.services.location)
     // Navigation components
     val navVersion = "2.7.7"
@@ -89,7 +89,8 @@ dependencies {
     kapt(libs.androidx.room.compiler)
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
-
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
 
     implementation("androidx.room:room-runtime:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
