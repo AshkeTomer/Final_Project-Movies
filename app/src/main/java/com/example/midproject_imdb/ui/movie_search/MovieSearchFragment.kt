@@ -8,31 +8,23 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.midproject_imdb.R
 import com.example.midproject_imdb.core.MovieApplication
 import com.example.midproject_imdb.databinding.MovieSearchBinding
-import com.example.midproject_imdb.ui.detail_movie.MovieTMDBDetailFragment
 import com.example.midproject_imdb.ui.favorite_movies.MovieTMDBAdapter
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MovieSearchFragment : Fragment() {
 
     private var _binding: MovieSearchBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MovieSearchViewModel by viewModels {
-        MovieSearchViewModelFactory(
-            repository = MovieApplication.getInstance().repository,
-            owner = this,
-            defaultArgs = arguments
-        )
-    }
+    private val viewModel: MovieSearchViewModel by viewModels()
+
     private lateinit var movieAdapter: MovieTMDBAdapter
 
     override fun onCreateView(

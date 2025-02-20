@@ -45,6 +45,7 @@ dependencies {
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
     implementation("com.google.android.material:material:1.11.0")
     implementation(libs.play.services.location)
+    implementation(libs.androidx.espresso.core)
     // Navigation components
     val navVersion = "2.7.7"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")

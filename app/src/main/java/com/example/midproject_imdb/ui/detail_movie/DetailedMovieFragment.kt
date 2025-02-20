@@ -17,6 +17,7 @@ class DetailedMovieFragment : Fragment() {
     private val viewModel : MoviesViewModel by activityViewModels()
     val binding get() = _binding!!
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -2,12 +2,16 @@ package com.example.midproject_imdb.data.repositories
 
 import com.example.midproject_imdb.data.local_db.MovieTMDBDao
 import com.example.midproject_imdb.data.models.MovieTMDB
-import com.example.midproject_imdb.data.network.MovieApiService
-import com.example.midproject_imdb.data.network.MovieResponse
-import com.example.midproject_imdb.data.network.MovieSearchResponse
+import com.example.midproject_imdb.data.retrofit.MovieApiService
+import com.example.midproject_imdb.data.retrofit.MovieResponse
+import com.example.midproject_imdb.data.retrofit.MovieSearchResponse
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class MovieRepo(
+
+@Singleton
+class MovieRepo  @Inject constructor(
     private val movieDao: MovieTMDBDao,
     private val movieApiService: MovieApiService
 ) {

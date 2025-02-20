@@ -6,14 +6,14 @@ import com.example.midproject_imdb.data.local_db.MovieDao
 import com.example.midproject_imdb.data.local_db.MovieDataBase
 import com.example.midproject_imdb.data.models.Movie
 import javax.inject.Inject
+import javax.inject.Singleton
 
+
+@Singleton
 class MovieRepository @Inject constructor(
     private val movieDao: MovieDao
-) {
-
-
-
-
+)
+{
 
     fun getMovies() = movieDao?.getMovies()
 

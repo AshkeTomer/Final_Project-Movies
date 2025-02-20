@@ -61,7 +61,7 @@
 
     <fragment
         android:id="@+id/movieTMDBDetailFragment"
-        android:name="com.example.midproject_imdb.ui.detail_movie.MovieTMDBDetailFragment"
+        android:name="com.example.midproject_imdb.ui.MovieTMDBDetailed.MovieTMDBDetailFragment"
         android:label="Movie Details"
         tools:layout="@layout/movie_tmdb_detail">
         <argument

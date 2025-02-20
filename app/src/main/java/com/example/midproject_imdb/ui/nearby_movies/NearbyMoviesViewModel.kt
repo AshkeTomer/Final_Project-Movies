@@ -6,10 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.midproject_imdb.data.models.MovieTMDB
 import com.example.midproject_imdb.data.repositories.MovieRepo
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.firstOrNull
+import javax.inject.Inject
 
-class NearbyMoviesViewModel(private val movieRepo: MovieRepo) : ViewModel() {
+@HiltViewModel
+class NearbyMoviesViewModel @Inject constructor (private val movieRepo: MovieRepo) : ViewModel() {
     private val _movies = MutableLiveData<List<MovieTMDB>>()
     val movies: LiveData<List<MovieTMDB>> = _movies
 

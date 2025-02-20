@@ -1,18 +1,15 @@
 package com.example.midproject_imdb.ui.favorite_movies
 
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.fragment.app.FragmentActivity
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.midproject_imdb.R
 import com.example.midproject_imdb.databinding.MovieApiItemBinding
 import com.example.midproject_imdb.data.models.MovieTMDB
-import com.example.midproject_imdb.ui.detail_movie.MovieTMDBDetailFragment
 
 class MovieTMDBAdapter(
     private val onFavoriteClick: (MovieTMDB) -> Unit,

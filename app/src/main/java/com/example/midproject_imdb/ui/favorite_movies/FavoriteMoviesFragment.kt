@@ -15,15 +15,16 @@ import com.example.midproject_imdb.core.MovieApplication
 import com.example.midproject_imdb.data.models.MovieTMDB
 import com.example.midproject_imdb.data.repositories.MovieRepo
 import com.example.midproject_imdb.databinding.FavoriteMoviesBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class FavoriteMoviesFragment : Fragment() {
 
     private var _binding: FavoriteMoviesBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: FavoriteMoviesViewModel by viewModels {
-        FavoriteMoviesViewModelFactory(MovieApplication.getInstance().repository)
-    }
+    private val viewModel: FavoriteMoviesViewModel by viewModels()
 
     private lateinit var movieAdapter: MovieTMDBAdapter
 

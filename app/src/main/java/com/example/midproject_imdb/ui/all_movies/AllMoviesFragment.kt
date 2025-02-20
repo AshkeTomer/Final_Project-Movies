@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -49,87 +50,82 @@ class AllMoviesFragment : Fragment() {
             Toast.makeText(requireActivity(),it, Toast.LENGTH_SHORT).show()
         }
         viewModel.preloadMovies()
+        setupObservers()
+        setupSwipeToDelete()
+    }
 
-        // Observe delete dialog state
+    private fun setupObservers() {
         viewModel.showDeleteDialog.observe(viewLifecycleOwner) { dialogState ->
             dialogState?.let { (movie, position) ->
                 showDeleteDialog(movie, position)
             }
         }
 
-        viewModel.movies?.observe(viewLifecycleOwner) {
-            binding.recycler.adapter = MovieAdapter(it, object : MovieAdapter.MovieListener  {
+        viewModel.movies?.observe(viewLifecycleOwner) { movies ->
+            binding.recycler.apply {
+                adapter = MovieAdapter(movies, object : MovieAdapter.MovieListener {
+                    override fun onItemClicked(index: Int) {
+                        viewModel.setMovie(movies[index])
+                        findNavController().navigate(R.id.action_allItemsFragment_to_detailItemFragment)
+                    }
 
-                override fun onItemClicked(index: Int) {
-
-                    viewModel.setMovie(it[index])
-                    findNavController().navigate(R.id.action_allItemsFragment_to_detailItemFragment)
-                }
-
-                override fun onItemLongClicked(index: Int) {
-                    viewModel.setMovie(it[index])
-                    findNavController().navigate(R.id.action_allItemsFragment_to_addItemFragment)
-                }
-            })
-            binding.recycler.layoutManager = GridLayoutManager(requireContext(),1)
-
+                    override fun onItemLongClicked(index: Int) {
+                        viewModel.setMovie(movies[index])
+                        findNavController().navigate(R.id.action_allItemsFragment_to_addItemFragment)
+                    }
+                })
+                layoutManager = GridLayoutManager(requireContext(), 1)
+            }
         }
+    }
 
+    private fun setupSwipeToDelete() {
         ItemTouchHelper(object : ItemTouchHelper.Callback() {
-
             override fun getMovementFlags(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder
             ) = makeFlag(
                 ItemTouchHelper.ACTION_STATE_SWIPE,
-                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            )
 
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
-            ): Boolean {
-                TODO("Not yet implemented")
+            ): Boolean = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val movie = (binding.recycler.adapter as MovieAdapter)
+                    .itemAt(viewHolder.adapterPosition)
+                viewModel.setDeleteDialog(movie, viewHolder.adapterPosition)
             }
+        }).attachToRecyclerView(binding.recycler)
+    }
 
-
-           override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-           val movie = (binding.recycler.adapter as MovieAdapter).itemAt(viewHolder.adapterPosition)
-           viewModel.setDeleteDialog(movie, viewHolder.adapterPosition)
-                                                                             }
-        }).attachToRecyclerView(binding.recycler) }
-
-
-         private fun showDeleteDialog(movie: Movie?, position: Int) {
-            val builder = AlertDialog.Builder(requireContext())
-
-            builder.setTitle(getString(R.string.delete_movie))
-            builder.setMessage(getString(R.string.are_you_sure_you_want_to_delete_this_movie))
-
-            builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
-                if (movie != null) {
-                    viewModel.deleteMovie(movie)
-                }
+    private fun showDeleteDialog(movie: Movie?, position: Int) {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.delete_movie))
+            setMessage(getString(R.string.are_you_sure_you_want_to_delete_this_movie))
+            setPositiveButton(getString(R.string.yes)) { _, _ ->
+                movie?.let { viewModel.deleteMovie(it) }
                 viewModel.clearDeleteDialog()
                 Toast.makeText(requireContext(),
                     getString(R.string.movie_deleted), Toast.LENGTH_SHORT).show()
             }
-
-            builder.setNegativeButton(getString(R.string.no)) { dialog, _ ->
+            setNegativeButton(getString(R.string.no)) { dialog, _ ->
                 binding.recycler.adapter?.notifyItemChanged(position)
                 viewModel.clearDeleteDialog()
                 dialog.dismiss()
             }
-
-            builder.setOnCancelListener {
+            setOnCancelListener {
                 binding.recycler.adapter?.notifyItemChanged(position)
                 viewModel.clearDeleteDialog()
             }
+        }.create().show()
+    }
 
-            builder.create().show()
-        }
-
-        override fun onDestroyView() {
+    override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }

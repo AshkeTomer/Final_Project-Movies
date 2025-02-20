@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,10 +22,15 @@ import com.example.midproject_imdb.core.MovieApplication
 import com.example.midproject_imdb.ui.favorite_movies.MovieTMDBAdapter
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
+
+@AndroidEntryPoint
 class NearbyMoviesFragment : Fragment() {
-    private lateinit var viewModel: NearbyMoviesViewModel
+    private val viewModel: NearbyMoviesViewModel by viewModels()
+
+
     private lateinit var movieAdapter: MovieTMDBAdapter
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var loadingIndicator: ProgressBar
@@ -61,12 +67,12 @@ class NearbyMoviesFragment : Fragment() {
         locationText = view.findViewById(R.id.locationText)
 
         setupNavigation(view)
+        setupRecyclerView()
+        setupObservers()
+        checkLocationPermission()
+    }
 
-        val movieApplication = requireActivity().application as MovieApplication
-        val viewModelFactory = NearbyMoviesViewModelFactory(movieApplication.repository)
-        viewModel = ViewModelProvider(this, viewModelFactory)[NearbyMoviesViewModel::class.java]
-
-        val recyclerView = view.findViewById<RecyclerView>(R.id.nearbyMoviesRecyclerView)
+    private fun setupRecyclerView() {
         movieAdapter = MovieTMDBAdapter(
             onFavoriteClick = { movie ->
                 if (movie.isFavorite) {
@@ -80,12 +86,13 @@ class NearbyMoviesFragment : Fragment() {
             }
         )
 
-        recyclerView.apply {
+        view?.findViewById<RecyclerView>(R.id.nearbyMoviesRecyclerView)?.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = movieAdapter
         }
+    }
 
-        // Observe favorite status changes
+    private fun setupObservers() {
         viewModel.favoriteStatusUpdated.observe(viewLifecycleOwner) { (movieId, isFavorite) ->
             movieAdapter.notifyDataSetChanged()
         }
@@ -97,8 +104,6 @@ class NearbyMoviesFragment : Fragment() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             loadingIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
-
-        checkLocationPermission()
     }
 
     private fun setupNavigation(view: View) {

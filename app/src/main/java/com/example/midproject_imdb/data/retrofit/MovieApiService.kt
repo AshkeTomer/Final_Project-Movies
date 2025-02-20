@@ -1,4 +1,4 @@
-package com.example.midproject_imdb.data.network
+package com.example.midproject_imdb.data.retrofit
 
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -19,6 +19,7 @@ interface MovieApiService {
 
 data class MovieSearchResponse(
     val results: List<MovieResponse>
+
 )
 
 data class MovieResponse(

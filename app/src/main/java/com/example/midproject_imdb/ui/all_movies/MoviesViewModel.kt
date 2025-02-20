@@ -21,7 +21,7 @@ class MoviesViewModel @Inject constructor(
     private val _chosenItem = MutableLiveData<Movie?>()
     val chosenItem: LiveData<Movie?> = _chosenItem
 
-       val movies: LiveData<List<Movie>>? = repository.getMovies()
+    val movies: LiveData<List<Movie>>? = repository.getMovies()
 
     fun addMovie(movie: Movie) {
         viewModelScope.launch{

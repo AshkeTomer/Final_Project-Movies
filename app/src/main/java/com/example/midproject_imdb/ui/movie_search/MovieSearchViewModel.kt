@@ -7,10 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.midproject_imdb.data.models.MovieTMDB
 import com.example.midproject_imdb.data.repositories.MovieRepo
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MovieSearchViewModel(
+@HiltViewModel
+class MovieSearchViewModel  @Inject constructor(
     private val repository: MovieRepo,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {

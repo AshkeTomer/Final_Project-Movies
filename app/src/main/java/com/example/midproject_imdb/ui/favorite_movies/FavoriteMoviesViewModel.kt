@@ -6,12 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.midproject_imdb.data.models.MovieTMDB
 import com.example.midproject_imdb.data.repositories.MovieRepo
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FavoriteMoviesViewModel(
+
+
+@HiltViewModel
+class FavoriteMoviesViewModel @Inject constructor(
     private val repository: MovieRepo
 ) : ViewModel() {
 
