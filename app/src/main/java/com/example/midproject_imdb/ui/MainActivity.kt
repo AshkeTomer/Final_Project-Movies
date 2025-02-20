@@ -1,9 +1,10 @@
-package com.example.midproject_imdb
+package com.example.midproject_imdb.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.example.midproject_imdb.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -37,6 +37,8 @@ class DetailedMovieFragment : Fragment() {
                 binding.userComm.text = it.userComments
                 Glide.with(requireContext()).load(it.photo).circleCrop()
                     .into(binding.itemImage)
+                binding.itemRating?.text = it.rating.toString()
+                binding.itemReleaseDate?.text  = it.releaseDate
             }
         }
     }

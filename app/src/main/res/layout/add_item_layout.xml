@@ -11,6 +11,7 @@
         android:padding="16dp"
         android:background="@color/white">
 
+        <!-- Title Input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/title_layout"
             android:layout_width="match_parent"
@@ -32,6 +33,7 @@
                 android:maxLines="1"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Description Input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/description_layout"
             android:layout_width="match_parent"
@@ -54,6 +56,47 @@
                 android:gravity="top|start"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Rating Input -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/rating_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            app:errorEnabled="true"
+            app:layout_constraintTop_toBottomOf="@id/description_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/item_rating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Rating (0.0 - 10.0)"
+                android:inputType="numberDecimal"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Release Date Input -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/release_date_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            app:errorEnabled="true"
+            app:layout_constraintTop_toBottomOf="@id/rating_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/item_release_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Release Date (YYYY-MM-DD)"
+                android:inputType="date"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- User Comments Input (Initially Hidden) -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/user_comments_layout"
             android:layout_width="match_parent"
@@ -63,7 +106,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             app:counterEnabled="true"
             app:counterMaxLength="200"
-            app:layout_constraintTop_toBottomOf="@id/description_layout">
+            app:layout_constraintTop_toBottomOf="@id/release_date_layout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/user_comments"
@@ -73,6 +116,7 @@
                 android:maxLength="200"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Pick Image Button -->
         <Button
             android:id="@+id/image_btn"
             android:layout_width="wrap_content"
@@ -87,6 +131,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+        <!-- Image Preview -->
         <ImageView
             android:id="@+id/result_image"
             android:layout_width="150dp"
@@ -98,6 +143,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+        <!-- Finish Button -->
         <Button
             android:id="@+id/finish_btn"
             android:layout_width="wrap_content"

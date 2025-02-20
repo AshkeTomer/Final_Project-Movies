@@ -17,7 +17,17 @@ data class Movie(
     val photo: String?=null,
 
     @ColumnInfo(name = "user_comments")
-    val userComments: String? = null)
+    val userComments: String? = null,
+
+    @ColumnInfo(name = "rating")
+    val rating: Float = 0.0f,
+
+    @ColumnInfo(name = "release_date")
+    val releaseDate: String = "",
+
+    )
+
+
     {
         @PrimaryKey(autoGenerate = true)
         var id : Int = 0

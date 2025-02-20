@@ -24,21 +24,15 @@ import dagger.hilt.android.AndroidEntryPoint
 class AddMovieFragment : Fragment() {
     private var _binding: AddItemLayoutBinding? = null
     private val binding get() = _binding!!
-    private var imageUri: Uri? = null
-    private var isEditMode = false
-    private var EditMovie = 0
 
     val viewModel: MoviesViewModel by activityViewModels()
 
     val pickImageLauncher: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) {
-            binding.resultImage.setImageURI(it)
             if (it != null) {
                 requireActivity().contentResolver.takePersistableUriPermission(
-                    it,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    it, Intent.FLAG_GRANT_READ_URI_PERMISSION
                 )
-                imageUri = it
                 viewModel.updateCurrentImageUri(it.toString())
             }
         }
@@ -67,7 +61,10 @@ class AddMovieFragment : Fragment() {
                     movie.title,
                     movie.description,
                     movie.userComments,
-                    movie.photo
+                    movie.photo,
+                    movie.rating,
+                    movie.releaseDate
+
                 )
                 viewModel.setShowComments(true)  // Set the visibility state
             }
@@ -76,10 +73,11 @@ class AddMovieFragment : Fragment() {
 
 
         viewModel.isEditMode.observe(viewLifecycleOwner) { isEdit ->
-            isEditMode = isEdit
+            binding.finishBtn.text = if (isEdit) getString(R.string.update_movie) else getString(R.string.add_movie)
+
         }
         viewModel.editMovieId.observe(viewLifecycleOwner) { id ->
-            EditMovie = id
+
         }
 
 
@@ -109,7 +107,7 @@ class AddMovieFragment : Fragment() {
 
         viewModel.currentImageUri.observe(viewLifecycleOwner) { uri ->
             if (uri != null) {
-                imageUri = Uri.parse(uri)
+                val imageUri = Uri.parse(uri)
                 binding.resultImage.setImageURI(imageUri)
             }
         }
@@ -118,27 +116,28 @@ class AddMovieFragment : Fragment() {
     private fun setupClickListeners() {
         binding.finishBtn.setOnClickListener {
             if (isInputValid()) {
-                if (isEditMode) {
-                    val item = Movie(
-                        binding.itemTitle.text.toString().trim(),
-                        binding.itemDescription.text.toString().trim(),
-                        imageUri.toString(),
-                        binding.userComments.text.toString()
-                    )
-                    item.id = EditMovie
-                    viewModel.updateMovie(item)
+                val movie = Movie(
+                    viewModel.currentTitle.value.orEmpty().trim(),
+                    viewModel.currentDescription.value.orEmpty().trim(),
+                    viewModel.currentImageUri.value.orEmpty(),
+                    viewModel.currentUserComments.value.orEmpty(),
+                    viewModel.currentRating.value ?: 0f,
+                    viewModel.currentReleaseDate.value.orEmpty()
+
+                )
+
+                if (viewModel.isEditMode.value == true) {
+                    movie.id = viewModel.editMovieId.value ?: 0
+                    viewModel.updateMovie(movie)
                 } else {
-                    val item = Movie(
-                        binding.itemTitle.text.toString().trim(),
-                        binding.itemDescription.text.toString().trim(),
-                        imageUri.toString()
-                    )
-                    viewModel.addMovie(item)
+                    viewModel.addMovie(movie)
                 }
+
                 viewModel.clearCurrentValues()
                 findNavController().navigate(R.id.action_addItemFragment_to_allItemsFragment)
             }
         }
+
 
         binding.imageBtn.setOnClickListener {
             pickImageLauncher.launch(arrayOf("image/*"))
@@ -171,11 +170,31 @@ class AddMovieFragment : Fragment() {
                 s?.toString()?.let { viewModel.updateCurrentUserComments(it) }
             }
         })
+        binding.itemRating?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                val rating = s.toString().toFloatOrNull() ?: 0f
+                viewModel.updateCurrentRating(rating)
+                validateInputs()
+            }
+        })
+
+        binding.itemReleaseDate?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                s?.toString()?.let { viewModel.updateCurrentReleaseDate(it) }
+                validateInputs()
+            }
+        })
     }
 
     private fun isInputValid(): Boolean {
         val titleText = binding.itemTitle.text.toString().trim()
         val descriptionText = binding.itemDescription.text.toString().trim()
+        val ratingText = binding.itemRating?.text.toString().trim()
+        val releaseDateText = binding.itemReleaseDate?.text.toString().trim()
         return titleText.isNotEmpty() && descriptionText.isNotEmpty()
     }
 

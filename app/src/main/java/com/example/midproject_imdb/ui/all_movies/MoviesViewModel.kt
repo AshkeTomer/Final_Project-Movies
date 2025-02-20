@@ -88,11 +88,29 @@ class MoviesViewModel @Inject constructor(
     private val _currentImageUri = MutableLiveData<String?>()
     val currentImageUri: MutableLiveData<String?> = _currentImageUri
 
-    fun setCurrentValues(title: String?, description: String?, comments: String?, imageUri: String?) {
+    private val _currentRating = MutableLiveData<Float>()
+    val currentRating: LiveData<Float> = _currentRating
+
+    private val _currentReleaseDate = MutableLiveData<String?>()
+    val currentReleaseDate: MutableLiveData<String?> = _currentReleaseDate
+
+    fun updateCurrentRating(rating: Float) {
+        _currentRating.value = rating
+    }
+
+    fun updateCurrentReleaseDate(date: String) {
+        _currentReleaseDate.value = date
+    }
+
+
+    fun setCurrentValues(title: String?, description: String?, comments: String?, imageUri: String?, rating: Float?, releaseDate: String?) {
         _currentTitle.value = title
         _currentDescription.value = description
         _currentUserComments.value = comments
         _currentImageUri.value = imageUri
+        _currentRating.value = rating ?: 0f  // Default to 0f if null
+        _currentReleaseDate.value = releaseDate
+
     }
 
     fun clearCurrentValues() {
@@ -103,6 +121,8 @@ class MoviesViewModel @Inject constructor(
         _showComments.value = false  // Reset the visibility state
         _isEditMode.value = false
         _editMovieId.value = 0
+        _currentRating.value =  0f
+        _currentReleaseDate.value = null
 
     }
 

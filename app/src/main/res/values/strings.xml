@@ -31,5 +31,10 @@
     <string name="unable_to_access_location">Unable to access location</string>
     <string name="movies_in">Movies in %1$s</string>
     <string name="rating">rating</string>
+    <string name="add_movie">Add Movie</string>
+    <string name="update_movie">Update Movie</string>
     <string name="release_date_not_available" />
+    <string name="release_date">Release Date</string>
+    <string name="rating_val">Rating</string>
+    />
 </resources>
