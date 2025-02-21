@@ -6,15 +6,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.midproject_imdb.R
+import com.example.midproject_imdb.core.MovieApplication
 import com.example.midproject_imdb.data.models.Movie
 import com.example.midproject_imdb.data.repositories.MovieRepository
+import dagger.hilt.android.internal.Contexts.getApplication
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MoviesViewModel @Inject constructor(
-    private val repository: MovieRepository
+    private val repository: MovieRepository,
+    private val application: Application
 ) : ViewModel() {
 
 
@@ -54,9 +58,11 @@ class MoviesViewModel @Inject constructor(
                 viewModelScope.launch {
                     repository.insertMovies(
                         listOf(
-                            Movie( "@string/Batman", "@string/batman_description", "android.resource://com.example.midproject_imdb/drawable/batman"),
-                            Movie( "@string/Superman", "@string/superman_description", "android.resource://com.example.midproject_imdb/drawable/superman"),
-                            Movie( "@string/One_Piece", "@string/one_piece_description", "android.resource://com.example.midproject_imdb/drawable/onepiece")
+
+
+                            Movie(application.getString(R.string.batman), application.getString(R.string.batman_description), "android.resource://com.example.midproject_imdb/drawable/batman","No comment",6.2f,"20/12/2012"),
+                            Movie( application.getString(R.string.superman),  application.getString(R.string.superman_description), "android.resource://com.example.midproject_imdb/drawable/superman","No comment",8f,"15/02/2010"),
+                            Movie( application.getString(R.string.one_piece), application.getString(R.string.one_piece_description), "android.resource://com.example.midproject_imdb/drawable/onepiece","No comments",10f,"12/10/1999")
                         )
                     )
                 }
