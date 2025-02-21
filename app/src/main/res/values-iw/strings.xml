@@ -34,6 +34,14 @@
     <string name="rating">דירוג</string>
     <string name="update_movie">עדכון סרט</string>
     <string name="add_movie">הוסף סרט</string>
+    <string name="Batman">בטמן</string>
+    <string name="superman">סופרמן</string>
+    <string name="one_piece">וואן פיס</string>
+    <string name="batman_description">סרט על הגעבור על בטמן</string>
+    <string name="superman_description">סרט על חייזר עם כוחות על</string>
+    <string name="one_piece_description">סדרה על לופי שרוצה להיות מלך הפיראטים</string>
+    <string name="release_date_enter">הכנס תאריך הוצאה לאור</string>
+    <string name="enter_rating">הכנס דירוג</string>
     <string name="release_date">הוצאה לאור</string>
     <string name="rating_val">דירוג</string>
     <string name="release_date_not_available" />

@@ -27,7 +27,7 @@
         suspend fun updateMovie(movie: Movie)
 
         @Query("SELECT * FROM movies ORDER BY title ASC")
-        fun getMovies(): LiveData<List<Movie>>
+        fun getMoviesByAscOrder(): LiveData<List<Movie>>
 
         @Query("SELECT * FROM movies WHERE id =:id")
          fun getMovie(id: Int): LiveData<Movie>

@@ -33,8 +33,16 @@
     <string name="rating">rating</string>
     <string name="add_movie">Add Movie</string>
     <string name="update_movie">Update Movie</string>
+    <string name="Batman">Batman</string>
+    <string name="superman">Super Men</string>
+    <string name="one_piece">One Piece</string>
+    <string name="batman_description">Movie about Bruce Wayne who became Batman </string>
+    <string name="superman_description">Movie about Clark Kent who is Supermen</string>
+    <string name="one_piece_description">Show about Luffy who wants to become king of the pirates </string>
     <string name="release_date_not_available" />
     <string name="release_date">Release Date</string>
+    <string name="enter_rating">Enter Rating (0.0 - 10.0)</string>
+    <string name="release_date_enter">Enter Release Date (YYYY-MM-DD)</string>
     <string name="rating_val">Rating</string>
     />
 </resources>

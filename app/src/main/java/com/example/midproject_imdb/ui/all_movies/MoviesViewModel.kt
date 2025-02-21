@@ -21,7 +21,7 @@ class MoviesViewModel @Inject constructor(
     private val _chosenItem = MutableLiveData<Movie?>()
     val chosenItem: LiveData<Movie?> = _chosenItem
 
-    val movies: LiveData<List<Movie>>? = repository.getMovies()
+    val movies: LiveData<List<Movie>>? = repository.getMoviesByAscOrder()
 
     fun addMovie(movie: Movie) {
         viewModelScope.launch{
@@ -54,9 +54,9 @@ class MoviesViewModel @Inject constructor(
                 viewModelScope.launch {
                     repository.insertMovies(
                         listOf(
-                            Movie( "Batman", "The dark knight", "android.resource://com.example.midproject_imdb/drawable/batman"),
-                            Movie( "Superman", "the man of steel", "android.resource://com.example.midproject_imdb/drawable/superman"),
-                            Movie( "One Piece", "the king of the pirates", "android.resource://com.example.midproject_imdb/drawable/onepiece")
+                            Movie( "@string/Batman", "@string/batman_description", "android.resource://com.example.midproject_imdb/drawable/batman"),
+                            Movie( "@string/Superman", "@string/superman_description", "android.resource://com.example.midproject_imdb/drawable/superman"),
+                            Movie( "@string/One_Piece", "@string/one_piece_description", "android.resource://com.example.midproject_imdb/drawable/onepiece")
                         )
                     )
                 }

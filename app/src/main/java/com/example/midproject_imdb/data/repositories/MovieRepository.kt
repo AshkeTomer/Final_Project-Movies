@@ -15,7 +15,7 @@ class MovieRepository @Inject constructor(
 )
 {
 
-    fun getMovies() = movieDao?.getMovies()
+    fun getMoviesByAscOrder() = movieDao?.getMoviesByAscOrder()
 
     suspend fun addMovie(movie: Movie) {
         movieDao?.addMovie(movie)

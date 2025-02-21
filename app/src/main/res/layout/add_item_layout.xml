@@ -72,7 +72,7 @@
                 android:id="@+id/item_rating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Rating (0.0 - 10.0)"
+                android:hint="@string/enter_rating"
                 android:inputType="numberDecimal"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,7 +92,7 @@
                 android:id="@+id/item_release_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Release Date (YYYY-MM-DD)"
+                android:hint="@string/release_date_enter"
                 android:inputType="date"/>
         </com.google.android.material.textfield.TextInputLayout>
 
