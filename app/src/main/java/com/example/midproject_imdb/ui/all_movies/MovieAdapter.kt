@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.midproject_imdb.databinding.ItemLayoutBinding
 import com.example.midproject_imdb.data.models.Movie
-import dagger.hilt.android.AndroidEntryPoint
 
 
 class MovieAdapter(val movies:List<Movie>, val callback: MovieListener)
@@ -26,12 +25,19 @@ class MovieAdapter(val movies:List<Movie>, val callback: MovieListener)
         }
 
         override fun onClick(p0: View?) {
-            callback.onItemClicked(adapterPosition)
+            val position = bindingAdapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                callback.onItemClicked(position)
+            }
         }
 
         override fun onLongClick(p0: View?): Boolean {
-            callback.onItemLongClicked(adapterPosition)
-            return true
+            val position = bindingAdapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                callback.onItemLongClicked(position)
+                return true
+            }
+            return false
         }
 
         fun bind(movie: Movie) {

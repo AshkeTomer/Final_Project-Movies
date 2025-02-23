@@ -16,8 +16,6 @@
     <string name="yes">Yes</string>
     <string name="movie_deleted">Movie deleted</string>
     <string name="no">No</string>
-    <string name="title_required">Title is required</string>
-    <string name="description_required">Description is required</string>
     <string name="description">Description</string>
     <string name="notes">Notes</string>
     <string name="overview">Overview</string>
@@ -27,7 +25,6 @@
     <string name="movies_in_your_region">Movies in your region</string>
     <string name="add_to_favorites">Add to favorites</string>
     <string name="no_favorite_movies_yet">No favorite movies yet</string>
-    <string name="location_permission_denied">Location permission denied</string>
     <string name="unable_to_access_location">Unable to access location</string>
     <string name="movies_in">Movies in %1$s</string>
     <string name="rating">rating</string>
@@ -39,10 +36,55 @@
     <string name="batman_description">Movie about Bruce Wayne who became Batman </string>
     <string name="superman_description">Movie about Clark Kent who is Supermen</string>
     <string name="one_piece_description">Show about Luffy who wants to become king of the pirates </string>
-    <string name="release_date_not_available" />
+    <string name="release_date_not_available">Release date not available</string>
     <string name="release_date">Release Date</string>
+
     <string name="enter_rating">Enter Rating (0.0 - 10.0)</string>
-    <string name="release_date_enter">Enter Release Date (YYYY-MM-DD)</string>
+    <string name="release_date_enter">Enter Release Date (DD/MM/YYYY)</string>
+    <string name="release_date_format_error">Please use the format DD/MM/YYYY</string>
     <string name="rating_val">Rating</string>
+    <string name="rating_cannot_be_negative">Rating cannot be negative</string>
+    <string name="rating_cannot_exceed_10">Rating cannot exceed 10</string>
+    <string name="rating_must_be_number">Please enter a valid number</string>
+    <string name="date_format_hint">Enter date as DD/MM/YYYY</string>
+    <string name="invalid_month">Month must be between 1 and 12</string>
+    <string name="invalid_day">Day must be between 1 and 31</string>
+    <string name="invalid_year">Year must be 1888 or later</string>
+    <string name="future_release_date">Release date cannot be after 2030</string>
+    <string name="invalid_date">Please enter a valid date</string>
+    <string name="rating_required">Rating is required</string>
+    <string name="rating_range_error">Rating must be between 0 and 10</string>
+    <string name="invalid_rating_format">Please enter a valid number</string>
+    <string name="rating_hint">Enter rating (0-10)</string>
+    <string name="release_date_required">Release date is required</string>
+    <string name="release_date_hint">DD/MM/YYYY</string>
+    <string name="invalid_date_format">Please use format DD/MM/YYYY</string>
+    <string name="release_date_too_early">Release date cannot be before 1888</string>
+    <string name="release_date_future">Release date cannot be in the future</string>
+    <string name="title_required">Title is required</string>
+    <string name="title_too_short">Title must be at least 2 characters</string>
+    <string name="description_required">Description is required</string>
+    <string name="description_too_short">Description must be at least 10 characters</string>
+    <string name="movie_updated">Movie updated successfully</string>
+    <string name="movie_added">Movie added successfully</string>
+
+    <string name="no_internet_connection">No internet connection. Please check your connection and try again.</string>
+    <string name="retry">Retry</string>
+    <string name="error_icon">Error icon</string>
+    <string name="gps_disabled">GPS is Disabled</string>
+    <string name="gps_disabled_message">GPS is required for finding nearby movies. Would you like to enable it?</string>
+    <string name="open_settings">Open Settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="gps_required">GPS is required to show movies in your region</string>
+    <string name="grant_permission">Grant Permission</string>
+    <string name="location_permission_denied">Location permission is required. Please go to Settings and select \"Allow all the time\" for location access.</string>
+    <string name="continue_button" />
+    <string name="location_permission_title">Location Permission Required</string>
+    <string name="location_permission_message">The app needs access to your location to display movies in your area. Please select "Allow only while using the app" in the next window.</string>
+    <string name="location_permission_denied_title">Location Access Denied</string>
+    <string name="location_permission_denied_message">To use this feature, you must grant location permission as "Allow only while using the app" in your device settings.</string>
+    <string name="settings" />
+
+
     />
 </resources>

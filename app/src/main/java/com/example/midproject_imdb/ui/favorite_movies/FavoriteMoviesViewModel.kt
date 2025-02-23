@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.midproject_imdb.data.models.MovieTMDB
-import com.example.midproject_imdb.data.repositories.MovieRepo
+import com.example.midproject_imdb.data.repositories.MovieTMDbRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoriteMoviesViewModel @Inject constructor(
-    private val repository: MovieRepo
+    private val repository: MovieTMDbRepo
 ) : ViewModel() {
 
     private val _favoriteMovies = MutableLiveData<List<MovieTMDB>>()

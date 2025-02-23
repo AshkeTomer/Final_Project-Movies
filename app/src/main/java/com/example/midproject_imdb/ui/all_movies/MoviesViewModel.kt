@@ -1,16 +1,13 @@
 package com.example.midproject_imdb.ui.all_movies
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.midproject_imdb.R
-import com.example.midproject_imdb.core.MovieApplication
 import com.example.midproject_imdb.data.models.Movie
 import com.example.midproject_imdb.data.repositories.MovieRepository
-import dagger.hilt.android.internal.Contexts.getApplication
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,7 +22,7 @@ class MoviesViewModel @Inject constructor(
     private val _chosenItem = MutableLiveData<Movie?>()
     val chosenItem: LiveData<Movie?> = _chosenItem
 
-    val movies: LiveData<List<Movie>>? = repository.getMoviesByAscOrder()
+    val movies: LiveData<List<Movie>> = repository.getMoviesByAscOrder()
 
     fun addMovie(movie: Movie) {
         viewModelScope.launch{
@@ -46,14 +43,14 @@ class MoviesViewModel @Inject constructor(
         _chosenItem.value=movie}
     }
 
-    val allMovies: LiveData<List<Movie>>? = repository.allMovies
+    private val allMovies: LiveData<List<Movie>> = repository.allMovies
 
 
 
 
     fun preloadMovies() {
 
-        allMovies?.observeForever { movies ->
+        allMovies.observeForever { movies ->
             if (movies.isEmpty()) {
                 viewModelScope.launch {
                     repository.insertMovies(

@@ -17,8 +17,6 @@
     <string name="yes">כן</string>
     <string name="movie_deleted">הסרט נמחק</string>
     <string name="no">לא</string>
-    <string name="title_required">נדרשת כותרת</string>
-    <string name="description_required">נדרש תיאור</string>
     <string name="description">תיאור</string>
     <string name="notes">הערות</string>
     <string name="overview">סקירה כללית</string>
@@ -28,7 +26,6 @@
     <string name="movies_in_your_region">סרטים באזורך</string>
     <string name="add_to_favorites">הוסף למועדפים</string>
     <string name="no_favorite_movies_yet">אין עדיין סרטים מועדפים</string>
-    <string name="location_permission_denied">הרשאת מיקום נדחתה</string>
     <string name="unable_to_access_location">לא ניתן לגשת למיקום</string>
     <string name="movies_in">סרטים ב-%1$s</string>
     <string name="rating">דירוג</string>
@@ -40,11 +37,66 @@
     <string name="batman_description">סרט על הגעבור על בטמן</string>
     <string name="superman_description">סרט על חייזר עם כוחות על</string>
     <string name="one_piece_description">סדרה על לופי שרוצה להיות מלך הפיראטים</string>
-    <string name="release_date_enter">הכנס תאריך הוצאה לאור</string>
-    <string name="enter_rating">הכנס דירוג</string>
-    <string name="release_date">הוצאה לאור</string>
+
+    <string name="enter_rating">הזן דירוג (0.0 - 10.0)</string>
+    <string name="release_date_enter">הזן תאריך יציאה (DD/MM/YYYY)</string>
+    <string name="release_date_format_error">אנא השתמש בפורמט DD/MM/YYYY</string>
     <string name="rating_val">דירוג</string>
-    <string name="release_date_not_available" />
+    <string name="rating_cannot_be_negative">הדירוג לא יכול להיות שלילי</string>
+    <string name="rating_cannot_exceed_10">הדירוג לא יכול לעלות על 10</string>
+    <string name="rating_must_be_number">אנא הזן מספר חוקי</string>
+    <string name="date_format_hint">הזן תאריך בפורמט DD/MM/YYYY</string>
+    <string name="invalid_month">החודש חייב להיות בין 1 ל-12</string>
+    <string name="invalid_day">היום חייב להיות בין 1 ל-31</string>
+    <string name="invalid_year">השנה חייבת להיות 1888 או מאוחרת יותר</string>
+    <string name="future_release_date">תאריך היציאה לא יכול להיות לאחר 2030</string>
+    <string name="invalid_date">אנא הזן תאריך חוקי</string>
+
+    <string name="rating_required">נדרש דירוג</string>
+    <string name="rating_range_error">הדירוג חייב להיות בין 0 ל-10</string>
+    <string name="invalid_rating_format">אנא הזן מספר חוקי</string>
+    <string name="rating_hint">הזן דירוג (0-10)</string>
+
+    <string name="release_date_required">נדרש תאריך יציאה</string>
+    <string name="release_date_hint">DD/MM/YYYY</string>
+    <string name="invalid_date_format">אנא השתמש בפורמט DD/MM/YYYY</string>
+    <string name="release_date_too_early">תאריך יציאה לא יכול להיות לפני 1888</string>
+    <string name="release_date_future">תאריך יציאה לא יכול להיות בעתיד</string>
+
+    <string name="title_required">נדרש כותרת</string>
+    <string name="title_too_short">הכותרת חייבת להיות לפחות 2 תווים</string>
+    <string name="description_required">נדרשת תיאור</string>
+    <string name="description_too_short">הטקסט חייב להיות לפחות 10 תווים</string>
+    <string name="movie_updated">הסרט עודכן בהצלחה</string>
+    <string name="movie_added">הסרט נוסף בהצלחה</string>
+
+
+    <string name="release_date">הוצאה לאור</string>
+    <string name="release_date_not_available">תאריך יציאה לא זמין</string>
+    <string name="no_internet_connection">אין חיבור לאינטרנט. אנא בדוק את החיבור ונסה שוב.</string>
+    <string name="retry">נסה שוב</string>
+    <string name="error_icon">אייקון שגיאה</string>
+    <string name="gps_disabled">ה-GPS מושבת</string>
+    <string name="gps_disabled_message">נדרש GPS למציאת סרטים בקרבת מקום. האם ברצונך להפעיל אותו?</string>
+    <string name="open_settings">פתח הגדרות</string>
+    <string name="cancel">ביטול</string>
+    <string name="gps_required">נדרש GPS להצגת סרטים באזור שלך</string>
+    <string name="location_permission_denied">נדרשת הרשאת מיקום. אנא עבור להגדרות ובחר \"אפשר תמיד\" עבור גישה למיקום.</string>
+
+
+    <string name="grant_permission">הענק הרשאה</string>
+
+    <string name="settings">הגדרות</string>
+
+
+    <string name="continue_button">המשך</string>
+
+    <string name="location_permission_title">נדרשת הרשאת מיקום</string>
+    <string name="location_permission_message">האפליקציה צריכה גישה למיקום שלך כדי להציג סרטים באזורך. אנא בחר באפשרות "אפשר רק בזמן השימוש באפליקציה" בחלון הבא.</string>
+    <string name="location_permission_denied_title">הגישה למיקום נדחתה</string>
+    <string name="location_permission_denied_message">כדי להשתמש בתכונה זו, יש להעניק הרשאת מיקום כ-"אפשר רק בזמן השימוש באפליקציה" בהגדרות המכשיר.</string>
+
+
 
 
 </resources>

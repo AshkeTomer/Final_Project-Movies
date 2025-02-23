@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DetailedMovieFragment : Fragment() {
-    var _binding : DetailItemLayoutBinding?  = null
+    private var _binding : DetailItemLayoutBinding?  = null
     private val viewModel : MoviesViewModel by activityViewModels()
     val binding get() = _binding!!
 
@@ -31,14 +31,14 @@ class DetailedMovieFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.chosenItem.observe(viewLifecycleOwner) { movie ->
-            movie?.let {
+            movie?.let { it ->
                 binding.itemTitle.text = it.title
                 binding.itemDesc.text = it.description
                 binding.userComm.text = it.userComments
                 Glide.with(requireContext()).load(it.photo).circleCrop()
                     .into(binding.itemImage)
-                binding.itemRating?.text = it.rating.toString()
-                binding.itemReleaseDate?.text  = it.releaseDate
+                binding.itemRating.text = it.rating.toString()
+                binding.itemReleaseDate.text  = it.releaseDate
             }
         }
     }

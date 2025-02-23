@@ -11,9 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.midproject_imdb.R
-import com.example.midproject_imdb.core.MovieApplication
 import com.example.midproject_imdb.data.models.MovieTMDB
-import com.example.midproject_imdb.data.repositories.MovieRepo
 import com.example.midproject_imdb.databinding.FavoriteMoviesBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,10 +43,10 @@ class FavoriteMoviesFragment : Fragment() {
     }
 
     private fun setupNavigation() {
-        binding.searchButton?.setOnClickListener {
+        binding.searchButton.setOnClickListener {
             findNavController().navigate(R.id.action_favorites_to_search)
         }
-        binding.nearbyButton?.setOnClickListener {
+        binding.nearbyButton.setOnClickListener {
             findNavController().navigate(R.id.action_favorites_to_nearby)
         }
     }

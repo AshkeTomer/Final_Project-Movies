@@ -13,9 +13,8 @@ import com.example.midproject_imdb.data.models.MovieTMDB
 
 class MovieTMDBAdapter(
     private val onFavoriteClick: (MovieTMDB) -> Unit,
-    private val isFavorite: (Int) -> Boolean,
-
-) : RecyclerView.Adapter<MovieTMDBAdapter.MovieViewHolder>() {
+    private val isFavorite: (Int) -> Boolean
+    ) : RecyclerView.Adapter<MovieTMDBAdapter.MovieViewHolder>() {
 
     private var movies: List<MovieTMDB> = emptyList()
 
@@ -103,7 +102,6 @@ class MovieTMDBAdapter(
         notifyDataSetChanged()
     }
 
-    fun getMovieAt(position: Int) = movies[position]
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         MovieViewHolder(MovieApiItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))

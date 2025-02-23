@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -24,11 +23,11 @@ class MovieTMDBDetailViewModel  @Inject constructor(
     private val _movieRating = MutableLiveData<Float>()
     val movieRating: LiveData<Float> = _movieRating
 
-    private val _movieReleaseDate = MutableLiveData<String>()
-    val movieReleaseDate: LiveData<String> = _movieReleaseDate
+    private val _movieReleaseDate = MutableLiveData<String?>()
+    val movieReleaseDate: LiveData<String?> = _movieReleaseDate
 
-    private val _moviePosterPath = MutableLiveData<String>()
-    val moviePosterPath: LiveData<String> = _moviePosterPath
+    private val _moviePosterPath = MutableLiveData<String?>()
+    val moviePosterPath: LiveData<String?> = _moviePosterPath
 
     init {
         // Restore saved state

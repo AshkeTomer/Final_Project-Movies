@@ -1,6 +1,5 @@
 package com.example.midproject_imdb.ui.add_movie
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,6 +8,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -19,17 +19,20 @@ import com.example.midproject_imdb.R
 import com.example.midproject_imdb.databinding.AddItemLayoutBinding
 import com.example.midproject_imdb.data.models.Movie
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @AndroidEntryPoint
 class AddMovieFragment : Fragment() {
     private var _binding: AddItemLayoutBinding? = null
     private val binding get() = _binding!!
 
-    val viewModel: MoviesViewModel by activityViewModels()
+    private val viewModel: MoviesViewModel by activityViewModels()
 
-    val pickImageLauncher: ActivityResultLauncher<Array<String>> =
-        registerForActivityResult(ActivityResultContracts.OpenDocument()) {
-            if (it != null) {
+    private val pickImageLauncher: ActivityResultLauncher<Array<String>> =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            uri?.let {
                 requireActivity().contentResolver.takePersistableUriPermission(
                     it, Intent.FLAG_GRANT_READ_URI_PERMISSION
                 )
@@ -37,20 +40,27 @@ class AddMovieFragment : Fragment() {
             }
         }
 
-    @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = AddItemLayoutBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupTextValidation()
         setupObservers()
         setupClickListeners()
+        setupInputHints()
         validateInputs()
+    }
 
-        return binding.root
+    private fun setupInputHints() {
+        binding.itemRating.hint = getString(R.string.rating_hint) // "Enter rating (0-10)"
+        binding.itemReleaseDate.hint = getString(R.string.release_date_hint) // "DD/MM/YYYY"
     }
 
     private fun setupObservers() {
@@ -64,28 +74,21 @@ class AddMovieFragment : Fragment() {
                     movie.photo,
                     movie.rating,
                     movie.releaseDate
-
                 )
-                viewModel.setShowComments(true)  // Set the visibility state
+                viewModel.setShowComments(true)
             }
         }
 
-
-
         viewModel.isEditMode.observe(viewLifecycleOwner) { isEdit ->
-            binding.finishBtn.text = if (isEdit) getString(R.string.update_movie) else getString(R.string.add_movie)
-
+            binding.finishBtn.text = if (isEdit)
+                getString(R.string.update_movie)
+            else
+                getString(R.string.add_movie)
         }
-        viewModel.editMovieId.observe(viewLifecycleOwner) { id ->
 
-        }
-
-
-        // observer for comments visibility
         viewModel.showComments.observe(viewLifecycleOwner) { show ->
             binding.userCommentsLayout.visibility = if (show) View.VISIBLE else View.GONE
         }
-
 
         viewModel.currentTitle.observe(viewLifecycleOwner) { title ->
             if (binding.itemTitle.text.toString() != title) {
@@ -106,9 +109,20 @@ class AddMovieFragment : Fragment() {
         }
 
         viewModel.currentImageUri.observe(viewLifecycleOwner) { uri ->
-            if (uri != null) {
-                val imageUri = Uri.parse(uri)
-                binding.resultImage.setImageURI(imageUri)
+            uri?.let {
+                binding.resultImage.setImageURI(Uri.parse(it))
+            }
+        }
+
+        viewModel.currentRating.observe(viewLifecycleOwner) { rating ->
+            if (binding.itemRating.text.toString() != rating.toString()) {
+                binding.itemRating.setText(rating.toString())
+            }
+        }
+
+        viewModel.currentReleaseDate.observe(viewLifecycleOwner) { date ->
+            if (binding.itemReleaseDate.text.toString() != date) {
+                binding.itemReleaseDate.setText(date)
             }
         }
     }
@@ -117,20 +131,21 @@ class AddMovieFragment : Fragment() {
         binding.finishBtn.setOnClickListener {
             if (isInputValid()) {
                 val movie = Movie(
-                    viewModel.currentTitle.value.orEmpty().trim(),
-                    viewModel.currentDescription.value.orEmpty().trim(),
-                    viewModel.currentImageUri.value.orEmpty(),
-                    viewModel.currentUserComments.value.orEmpty(),
-                    viewModel.currentRating.value ?: 0f,
-                    viewModel.currentReleaseDate.value.orEmpty()
-
+                    title = viewModel.currentTitle.value.orEmpty().trim(),
+                    description = viewModel.currentDescription.value.orEmpty().trim(),
+                    photo = viewModel.currentImageUri.value,
+                    userComments = viewModel.currentUserComments.value.orEmpty(),
+                    rating = viewModel.currentRating.value ?: 0f,
+                    releaseDate = viewModel.currentReleaseDate.value.orEmpty()
                 )
 
                 if (viewModel.isEditMode.value == true) {
                     movie.id = viewModel.editMovieId.value ?: 0
                     viewModel.updateMovie(movie)
+                    Toast.makeText(context, getString(R.string.movie_updated), Toast.LENGTH_SHORT).show()
                 } else {
                     viewModel.addMovie(movie)
+                    Toast.makeText(context, getString(R.string.movie_added), Toast.LENGTH_SHORT).show()
                 }
 
                 viewModel.clearCurrentValues()
@@ -138,81 +153,143 @@ class AddMovieFragment : Fragment() {
             }
         }
 
-
         binding.imageBtn.setOnClickListener {
             pickImageLauncher.launch(arrayOf("image/*"))
         }
     }
 
     private fun setupTextValidation() {
-        binding.itemTitle.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                s?.toString()?.let { viewModel.updateCurrentTitle(it) }
-                validateInputs()
-            }
+        binding.itemTitle.addTextChangedListener(createTextWatcher { text ->
+            validateTitle(text)
         })
 
-        binding.itemDescription.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                s?.toString()?.let { viewModel.updateCurrentDescription(it) }
-                validateInputs()
-            }
+        binding.itemDescription.addTextChangedListener(createTextWatcher { text ->
+            validateDescription(text)
         })
 
-        binding.userComments.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                s?.toString()?.let { viewModel.updateCurrentUserComments(it) }
-            }
-        })
-        binding.itemRating?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                val rating = s.toString().toFloatOrNull() ?: 0f
-                viewModel.updateCurrentRating(rating)
-                validateInputs()
-            }
-        })
+        binding.itemRating.addTextWatcher { text ->
+            validateRating(text)
+        }
 
-        binding.itemReleaseDate?.addTextChangedListener(object : TextWatcher {
+        binding.itemReleaseDate.addTextWatcher { text ->
+            validateReleaseDate(text)
+        }
+
+        binding.userComments.addTextWatcher { text ->
+            viewModel.updateCurrentUserComments(text)
+        }
+    }
+
+    private fun createTextWatcher(afterTextChanged: (String) -> Unit): TextWatcher {
+        return object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                s?.toString()?.let { viewModel.updateCurrentReleaseDate(it) }
-                validateInputs()
+                s?.toString()?.let { afterTextChanged(it) }
             }
-        })
+        }
+    }
+
+    private fun validateTitle(title: String) {
+        when {
+            title.isBlank() -> {
+                binding.titleLayout.error = getString(R.string.title_required)
+            }
+            title.length < 2 -> {
+                binding.titleLayout.error = getString(R.string.title_too_short)
+            }
+            else -> {
+                binding.titleLayout.error = null
+                viewModel.updateCurrentTitle(title)
+            }
+        }
+        validateInputs()
+    }
+
+    private fun validateDescription(description: String) {
+        when {
+            description.isBlank() -> {
+                binding.descriptionLayout.error = getString(R.string.description_required)
+            }
+            description.length < 10 -> {
+                binding.descriptionLayout.error = getString(R.string.description_too_short)
+            }
+            else -> {
+                binding.descriptionLayout.error = null
+                viewModel.updateCurrentDescription(description)
+            }
+        }
+        validateInputs()
+    }
+
+    private fun validateRating(rating: String) {
+        try {
+            when {
+                rating.isBlank() -> {
+                    binding.ratingLayout.error = getString(R.string.rating_required)
+                }
+                rating.toFloat() !in 0f..10f -> {
+                    binding.ratingLayout.error = getString(R.string.rating_range_error)
+                }
+                else -> {
+                    binding.ratingLayout.error = null
+                    viewModel.updateCurrentRating(rating.toFloat())
+                }
+            }
+        } catch (e: NumberFormatException) {
+            binding.ratingLayout.error = getString(R.string.invalid_rating_format)
+        }
+        validateInputs()
+    }
+
+    private fun validateReleaseDate(date: String) {
+        if (date.isBlank()) {
+            binding.releaseDateLayout.error = getString(R.string.release_date_required)
+            validateInputs()
+            return
+        }
+
+        try {
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            dateFormat.isLenient = false
+            val parsedDate = dateFormat.parse(date)
+
+            if (parsedDate != null) {
+                val calendar = Calendar.getInstance()
+                calendar.time = parsedDate
+
+                when {
+                    calendar.get(Calendar.YEAR) < 1888 -> { // First movie ever made
+                        binding.releaseDateLayout.error = getString(R.string.release_date_too_early)
+                    }
+                    calendar.time.after(Calendar.getInstance().time) -> {
+                        binding.releaseDateLayout.error = getString(R.string.release_date_future)
+                    }
+                    else -> {
+                        binding.releaseDateLayout.error = null
+                        viewModel.updateCurrentReleaseDate(date)
+                    }
+                }
+            } else {
+                binding.releaseDateLayout.error = getString(R.string.invalid_date_format)
+            }
+        } catch (e: Exception) {
+            binding.releaseDateLayout.error = getString(R.string.invalid_date_format)
+        }
+        validateInputs()
     }
 
     private fun isInputValid(): Boolean {
-        val titleText = binding.itemTitle.text.toString().trim()
-        val descriptionText = binding.itemDescription.text.toString().trim()
-        val ratingText = binding.itemRating?.text.toString().trim()
-        val releaseDateText = binding.itemReleaseDate?.text.toString().trim()
-        return titleText.isNotEmpty() && descriptionText.isNotEmpty()
+        val hasValidTitle = binding.titleLayout.error == null && !binding.itemTitle.text.isNullOrBlank()
+        val hasValidDescription = binding.descriptionLayout.error == null && !binding.itemDescription.text.isNullOrBlank()
+        val hasValidRating = binding.ratingLayout.error == null && !binding.itemRating.text.isNullOrBlank()
+        val hasValidReleaseDate = binding.releaseDateLayout.error == null && !binding.itemReleaseDate.text.isNullOrBlank()
+
+        return hasValidTitle && hasValidDescription && hasValidRating && hasValidReleaseDate
     }
 
     private fun validateInputs() {
-        val isValid = isInputValid()
-        binding.finishBtn.isEnabled = isValid
-
-        if (binding.itemTitle.text.toString().trim().isEmpty()) {
-            binding.itemTitle.error = getString(R.string.title_required)
-        } else {
-            binding.itemTitle.error = null
-        }
-
-        if (binding.itemDescription.text.toString().trim().isEmpty()) {
-            binding.itemDescription.error = getString(R.string.description_required)
-        } else {
-            binding.itemDescription.error = null
-        }
+        binding.finishBtn.isEnabled = isInputValid()
     }
 
     override fun onDestroyView() {
@@ -222,4 +299,15 @@ class AddMovieFragment : Fragment() {
         }
         _binding = null
     }
+}
+
+// Extension function to make TextWatcher creation more concise
+private fun android.widget.EditText.addTextWatcher(afterTextChanged: (String) -> Unit) {
+    addTextChangedListener(object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        override fun afterTextChanged(s: Editable?) {
+            afterTextChanged(s?.toString() ?: "")
+        }
+    })
 }

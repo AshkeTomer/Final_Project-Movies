@@ -5,13 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.midproject_imdb.R
-import com.example.midproject_imdb.core.MovieApplication
 import com.example.midproject_imdb.databinding.MovieSearchBinding
 import com.example.midproject_imdb.ui.favorite_movies.MovieTMDBAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,7 +46,7 @@ class MovieSearchFragment : Fragment() {
         binding.favoritesButton.setOnClickListener {
             findNavController().navigate(R.id.action_search_to_favorites)
         }
-        binding.nearbyButton?.setOnClickListener {
+        binding.nearbyButton.setOnClickListener {
             findNavController().navigate(R.id.action_search_to_nearby)
         }
     }
@@ -92,22 +90,57 @@ class MovieSearchFragment : Fragment() {
     private fun observeViewModel() {
         // Observe movies
         viewModel.movies.observe(viewLifecycleOwner) { movies ->
+
             movieAdapter.setMovies(movies)
         }
 
         // Observe loading state
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            if (isLoading) {
+                binding.moviesRecyclerView.visibility = View.GONE
+                binding.errorContainer.visibility = View.GONE
+            }
         }
 
         // Observe errors
         viewModel.error.observe(viewLifecycleOwner) { error ->
             error?.let {
-                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                binding.moviesRecyclerView.visibility = View.GONE
+                binding.errorContainer.visibility = View.VISIBLE
+                binding.errorMessage.text = getString(R.string.no_internet_connection)
+                binding.retryButton.setOnClickListener {
+
+                    binding.searchView.query?.toString()?.let { query ->
+                        if (query.isNotBlank()) {
+                            viewModel.searchMovies(query.trim())
+                        }
+                    }
+                }
             }
         }
 
+        viewModel.isNetworkError.observe(viewLifecycleOwner) { hasError ->
+            if (hasError) {
+                binding.moviesRecyclerView.visibility = View.GONE
+                binding.errorContainer.visibility = View.VISIBLE
+                binding.retryButton.setOnClickListener {
+                    binding.searchView.query?.toString()?.let { query ->
+                        if (query.isNotBlank()) {
+                            viewModel.searchMovies(query.trim())
+                        }
+                    }
+                }
+            } else {
+                binding.moviesRecyclerView.visibility = View.VISIBLE
+                binding.errorContainer.visibility = View.GONE
+            }
+        }
+
+
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -6,7 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.midproject_imdb.data.models.MovieTMDB
-import com.example.midproject_imdb.data.repositories.MovieRepo
+import com.example.midproject_imdb.data.repositories.MovieTMDbRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieSearchViewModel  @Inject constructor(
-    private val repository: MovieRepo,
+    private val repository: MovieTMDbRepo,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -30,6 +30,10 @@ class MovieSearchViewModel  @Inject constructor(
     private val _currentQuery = savedStateHandle.getLiveData<String>("current_query", "")
     val currentQuery: LiveData<String> = _currentQuery
 
+    private val _isNetworkError = savedStateHandle.getLiveData<Boolean>("isNetworkError", false)
+    val isNetworkError: LiveData<Boolean> = _isNetworkError
+
+
     init {
         // Restore search results if there was a previous query
         _currentQuery.value?.takeIf { it.isNotEmpty() }?.let { query ->
@@ -44,9 +48,10 @@ class MovieSearchViewModel  @Inject constructor(
                 _isLoading.value = true
                 val searchResults = repository.searchMovies(query)
                 updateMoviesWithFavoriteState(searchResults)
+                _isNetworkError.value = false
                 _isLoading.value = false
             } catch (e: Exception) {
-                _error.value = "Error searching movies: ${e.message}"
+                _isNetworkError.value = true
                 _isLoading.value = false
             }
         }
@@ -68,7 +73,7 @@ class MovieSearchViewModel  @Inject constructor(
                 _movies.value = _movies.value?.map {
                     if (it.id == movie.id) it.copy(isFavorite = !isFavorite) else it
                 }
-                
+
                 // Then update the database
                 if (isFavorite) {
                     repository.removeFromFavorites(movie)

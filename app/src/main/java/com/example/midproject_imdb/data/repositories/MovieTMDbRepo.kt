@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 
 @Singleton
-class MovieRepo  @Inject constructor(
+class MovieTMDbRepo  @Inject constructor(
     private val movieDao: MovieTMDBDao,
     private val movieApiService: MovieApiService
 ) {

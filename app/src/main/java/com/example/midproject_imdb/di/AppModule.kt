@@ -1,4 +1,5 @@
 package com.example.midproject_imdb.di
+import android.app.Application
 import com.example.midproject_imdb.data.local_db.MovieDao
 
 import android.content.Context
@@ -6,8 +7,6 @@ import com.example.midproject_imdb.data.local_db.MovieDataBase
 import com.example.midproject_imdb.data.local_db.MovieTMDBDao
 import com.example.midproject_imdb.data.local_db.MovieTMDBDatabase
 import com.example.midproject_imdb.data.retrofit.MovieApiService
-import com.example.midproject_imdb.data.repositories.MovieRepo
-import com.example.midproject_imdb.data.repositories.MovieRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +23,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+
+
+
+
+
     // Database Dependencies
     @Provides
     @Singleton

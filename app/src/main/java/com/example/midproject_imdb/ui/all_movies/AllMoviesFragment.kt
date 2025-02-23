@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -37,7 +36,7 @@ class AllMoviesFragment : Fragment() {
             findNavController().navigate(R.id.action_allItemsFragment_to_addItemFragment)
         }
 
-        binding.goToSearch?.setOnClickListener {
+        binding.goToSearch.setOnClickListener {
             findNavController().navigate(R.id.action_allItemsFragment_to_movieSearchFragment)
         }
         return binding.root
@@ -61,7 +60,7 @@ class AllMoviesFragment : Fragment() {
             }
         }
 
-        viewModel.movies?.observe(viewLifecycleOwner) { movies ->
+        viewModel.movies.observe(viewLifecycleOwner) { movies ->
             binding.recycler.apply {
                 adapter = MovieAdapter(movies, object : MovieAdapter.MovieListener {
                     override fun onItemClicked(index: Int) {
@@ -96,9 +95,11 @@ class AllMoviesFragment : Fragment() {
             ): Boolean = false
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val movie = (binding.recycler.adapter as MovieAdapter)
-                    .itemAt(viewHolder.adapterPosition)
-                viewModel.setDeleteDialog(movie, viewHolder.adapterPosition)
+                val position = viewHolder.bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val movie = (binding.recycler.adapter as MovieAdapter).itemAt(position)
+                    viewModel.setDeleteDialog(movie, position)
+                }
             }
         }).attachToRecyclerView(binding.recycler)
     }
