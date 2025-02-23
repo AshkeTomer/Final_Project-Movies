@@ -54,14 +54,10 @@ class AddMovieFragment : Fragment() {
         setupTextValidation()
         setupObservers()
         setupClickListeners()
-        setupInputHints()
         validateInputs()
     }
 
-    private fun setupInputHints() {
-        binding.itemRating.hint = getString(R.string.rating_hint) // "Enter rating (0-10)"
-        binding.itemReleaseDate.hint = getString(R.string.release_date_hint) // "DD/MM/YYYY"
-    }
+
 
     private fun setupObservers() {
         viewModel.chosenItem.observe(viewLifecycleOwner) { movie ->
